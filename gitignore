@@ -4,3 +4,4 @@ venv/
 __pycache__/
 __pytest__/
 eliza.pdf
+documents/
