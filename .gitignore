@@ -9,3 +9,4 @@ documents/
 eliza.md
 *.csv
 *.xml
+.misc/
