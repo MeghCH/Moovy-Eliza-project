@@ -7,3 +7,5 @@ eliza.pdf
 documents/
 .ruff_cache
 eliza.md
+*.csv
+*.xml
