@@ -142,6 +142,8 @@ Analyze the following CSV containing a user's watched movie history. The CSV inc
   }}
 }}
 
+The response need to be raw. No markdown syntax or anything else. Only raw json text
+
 Here is the CSV:
 
 ```csv
@@ -242,6 +244,8 @@ Analyze the following CSV containing a user's watched movie history. The CSV inc
     ]
   }}
 }}
+
+The response need to be raw. No markdown syntax or anything else. Only raw json text
 
 Here is the CSV:
 

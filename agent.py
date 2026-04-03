@@ -16,44 +16,43 @@ agent = Agent(model=ollama_model)
 
 def profile():
     username = input("Letterboxd Username :")
-    markdown_content = run_profile_prompter(username)
 
-    print("Sending markdown content to the agent...")
-    print("Markdown content:")
-    print(markdown_content)
-
-    response = agent(markdown_content)
-
-    print("\nAgent response received:")
-    print("Response type:", type(response))
-    print("Response content:", response)
-
-    response_content = str(response)
-
-    print("\nAttempting to parse JSON...")
     try:
-        profile_json = json.loads(response_content)
-        os.makedirs("cache/json", exist_ok=True)
-        with open(f"cache/json/{username}.json", "w", encoding="utf-8") as json_file:
-            json.dump(profile_json, json_file, indent=4)
-        print(f"Profile saved to cache/json/{username}.json")
-    except json.JSONDecodeError as e:
-        print("Error: The agent's response is not valid JSON.")
-        print("Error details:", e)
-        print("Response content:", response_content)
+        markdown_content = run_profile_prompter(username)
+    except Exception as e:
+        print(f"Error generating markdown content: {e}")
+        return
 
-        os.makedirs("cache/json", exist_ok=True)
-        response_lines = response_content.split("\n")
-        if len(response_lines) > 2:
-            cleaned_response = "\n".join(response_lines[1:-1])
-        else:
-            cleaned_response = response_content
+    try:
+        response = agent(markdown_content)
+        print("Agent response:")
+        print(response)
 
-        with open(
-            f"cache/json/{username}_response.json", "w", encoding="utf-8"
-        ) as json_file:
-            json_file.write(cleaned_response)
-        print(f"Raw response saved to cache/json/{username}_response.json")
+        response_content = str(response)
+
+        try:
+            profile_json = json.loads(response_content)
+            os.makedirs("cache/json", exist_ok=True)
+            output_path = f"cache/json/{username}.json"
+            with open(output_path, "w", encoding="utf-8") as json_file:
+                json.dump(profile_json, json_file, indent=4)
+            print(f"\nProfile saved to {output_path}")
+
+        except json.JSONDecodeError as e:
+            print("Error: The agent's response is not valid JSON.")
+            print(f"Error details: {e}")
+
+            os.makedirs("cache/json", exist_ok=True)
+            output_path = f"cache/json/{username}_response.json"
+            with open(output_path, "w", encoding="utf-8") as json_file:
+                json_file.write(response_content)
+            print(f"Raw response saved to {output_path}")
+
+    except Exception as e:
+        print(f"Error sending content to the agent: {e}")
+        import traceback
+
+        traceback.print_exc()
 
 
 if __name__ == "__main__":
