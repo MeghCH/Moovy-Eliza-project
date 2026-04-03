@@ -10,3 +10,4 @@ eliza.md
 *.csv
 *.xml
 .misc/
+cache/

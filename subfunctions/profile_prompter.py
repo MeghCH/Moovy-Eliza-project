@@ -108,7 +108,6 @@ Analyze the following CSV containing a user's watched movie history. The CSV inc
 3. **Identify the top 4 most appreciated genres** based on the highest scores.
 4. **Output only the JSON** in the following format:
 
-```json
 {{
   "profile": {{
     "age_range": [min_age, max_age],
@@ -142,7 +141,6 @@ Analyze the following CSV containing a user's watched movie history. The CSV inc
     ]
   }}
 }}
-```
 
 Here is the CSV:
 
@@ -154,13 +152,11 @@ Here is the CSV:
     with open(f"{username}.md", "w", encoding="utf-8") as md_file:
         md_file.write(markdown_content)
 
+    print(markdown_content)
 
-if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        username = sys.argv[1]
-    else:
-        username = input("Enter the Letterboxd username: ")
 
+def run_profile_prompter(username):
+    """Run the entire profile prompter pipeline and return the markdown content"""
     rss_file = download_rss(username)
     csv_file = f"{username}.csv"
 
@@ -169,11 +165,104 @@ if __name__ == "__main__":
     with open(csv_file, "r", encoding="utf-8") as csvfile:
         csv_content = csvfile.read()
 
-    generate_markdown(username, csv_content)
-
-    print(f"Successfully generated {username}.md")
+    markdown_content = create_markdown(username, csv_content)
 
     if rss_file:
         os.remove(rss_file)
     if os.path.exists(csv_file):
         os.remove(csv_file)
+
+    return markdown_content
+
+
+def create_markdown(username, csv_content):
+    """Generate a markdown file with the prompt and CSV content"""
+    markdown_content = f"""# Movie Preference Analysis Task
+
+## Input
+Analyze the following CSV containing a user's watched movie history. The CSV includes the columns: `Film Title` and `Rating`.
+
+## Objective
+1. **Estimate the user's age range** based on the release years of the watched movies and their ratings.
+2. **Calculate genre preferences** as a normalized score (0 to 1) for each of the following genres:
+   - Action
+   - Adventure
+   - Animation
+   - Biography
+   - Comedy
+   - Crime
+   - Documentary
+   - Drama
+   - Family
+   - Fantasy
+   - History
+   - Horror
+   - Musical
+   - Mystery
+   - Romance
+   - Sci-Fi (Science Fiction)
+   - Sport
+   - Thriller
+   - War
+   - Western
+
+3. **Identify the top 4 most appreciated genres** based on the highest scores.
+4. **Output only the JSON** in the following format:
+
+{{
+  "profile": {{
+    "age_range": [min_age, max_age],
+    "genres": {{
+      "Action": score,
+      "Adventure": score,
+      "Animation": score,
+      "Biography": score,
+      "Comedy": score,
+      "Crime": score,
+      "Documentary": score,
+      "Drama": score,
+      "Family": score,
+      "Fantasy": score,
+      "History": score,
+      "Horror": score,
+      "Musical": score,
+      "Mystery": score,
+      "Romance": score,
+      "Sci-Fi": score,
+      "Sport": score,
+      "Thriller": score,
+      "War": score,
+      "Western": score
+    }},
+    "top_genres": [
+      "Genre1",
+      "Genre2",
+      "Genre3",
+      "Genre4"
+    ]
+  }}
+}}
+
+Here is the CSV:
+
+```csv
+{csv_content}
+```
+"""
+
+    os.makedirs("cache/prompt", exist_ok=True)
+    with open(f"cache/prompt/{username}.md", "w", encoding="utf-8") as md_file:
+        md_file.write(markdown_content)
+
+    print(markdown_content)
+
+    return markdown_content
+
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        username = sys.argv[1]
+    else:
+        username = input("Enter the Letterboxd username: ")
+
+    run_profile_prompter(username)
