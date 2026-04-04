@@ -75,39 +75,8 @@ def xml_to_csv(xml_file, csv_file):
 
 
 def generate_markdown(username, csv_content):
-    """Generate a markdown file with the prompt and CSV content"""
-    markdown_content = f"""# Movie Preference Analysis Task
-
-## Input
-Analyze the following CSV containing a user's watched movie history. The CSV includes the columns: `Film Title` and `Rating`.
-
-## Objective
-1. **Estimate the user's age range** based on the release years of the watched movies and their ratings.
-2. **Calculate genre preferences** as a normalized score (0 to 1) for each of the following genres:
-   - Action
-   - Adventure
-   - Animation
-   - Biography
-   - Comedy
-   - Crime
-   - Documentary
-   - Drama
-   - Family
-   - Fantasy
-   - History
-   - Horror
-   - Musical
-   - Mystery
-   - Romance
-   - Sci-Fi (Science Fiction)
-   - Sport
-   - Thriller
-   - War
-   - Western
-
-3. **Identify the top 4 most appreciated genres** based on the highest scores.
-4. **Output only the JSON** in the following format:
-
+    """Backward-compatible wrapper around create_markdown()."""
+    return create_markdown(username, csv_content)
 {{
   "profile": {{
     "age_range": [min_age, max_age],
