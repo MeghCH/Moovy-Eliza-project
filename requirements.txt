@@ -2,3 +2,5 @@ strands-agents
 strands-agents-tools
 strands-agents-builder
 strands-agents[ollama]
+discord.py
+python-dotenv

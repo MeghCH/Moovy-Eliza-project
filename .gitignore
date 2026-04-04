@@ -11,3 +11,4 @@ eliza.md
 *.xml
 .misc/
 cache/
+.env

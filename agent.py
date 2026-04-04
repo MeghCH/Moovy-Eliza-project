@@ -14,8 +14,7 @@ ollama_model = OllamaModel(
 agent = Agent(model=ollama_model)
 
 
-def profile():
-    username = input("Letterboxd Username :")
+def profile(username, discord_user):
 
     try:
         markdown_content = run_profile_prompter(username)
@@ -33,7 +32,7 @@ def profile():
         try:
             profile_json = json.loads(response_content)
             os.makedirs("cache/json", exist_ok=True)
-            output_path = f"cache/json/{username}.json"
+            output_path = f"cache/json/{discord_user}.json"
             with open(output_path, "w", encoding="utf-8") as json_file:
                 json.dump(profile_json, json_file, indent=4)
             print(f"\nProfile saved to {output_path}")
@@ -43,7 +42,7 @@ def profile():
             print(f"Error details: {e}")
 
             os.makedirs("cache/json", exist_ok=True)
-            output_path = f"cache/json/{username}_response.json"
+            output_path = f"cache/json/{discord_user}.json"
             with open(output_path, "w", encoding="utf-8") as json_file:
                 json_file.write(response_content)
             print(f"Raw response saved to {output_path}")
@@ -53,7 +52,3 @@ def profile():
         import traceback
 
         traceback.print_exc()
-
-
-if __name__ == "__main__":
-    profile()
