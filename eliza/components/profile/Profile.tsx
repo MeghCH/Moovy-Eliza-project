@@ -16,9 +16,9 @@ export default function ProfilePage() {
         {genres.map((genre) => (
           <div
             key={genre.label}
-            className="flex flex-col items-start justify-end bg-white/5 border border-purple-600/40 rounded-2xl p-8 aspect-square hover:bg-white/10 transition-colors"
+            className="flex flex-col items-center justify-center text-center bg-white/5 border border-purple-600/40 rounded-2xl p-8 aspect-square hover:bg-white/10 transition-colors"
           >
-            <span className="text-white text-4xl font-semibold mb-2">
+            <span className="text-white text-4xl font-medium mb-2">
               {genre.percentage}
             </span>
             <span className="text-purple-400 text-base font-semibold tracking-widest">

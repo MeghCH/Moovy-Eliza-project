@@ -1,36 +1,132 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Eliza
 
-## Getting Started
+An AI-powered movie recommendation chatbot built with Next.js 16, React 19, and Tailwind CSS 4.
 
-First, run the development server:
+## Stack
+
+- **Framework**: Next.js 16 (App Router, Turbopack)
+- **UI**: React 19, Tailwind CSS 4, Radix UI, Remixicon
+- **Package manager**: Bun
+- **Language**: TypeScript
+
+## Dependencies
+
+### Production
+| Package | Version | Usage |
+|---|---|---|
+| `next` | 16.2.2 | React framework (App Router, SSR, routing) |
+| `react` | 19.2.4 | UI library |
+| `react-dom` | 19.2.4 | DOM rendering for React |
+| `@radix-ui/react-avatar` | ^1.1.11 | Accessible avatar component (profile page) |
+| `@radix-ui/react-tooltip` | ^1.2.8 | Accessible tooltip component |
+| `@remixicon/react` | ^4.9.0 | Icon library |
+
+### Dev / Build
+| Package | Usage |
+|---|---|
+| `tailwindcss` ^4 | Utility-first CSS framework |
+| `@tailwindcss/postcss` ^4 | PostCSS plugin for Tailwind |
+| `typescript` ^5 | Static typing |
+| `@types/node`, `@types/react`, `@types/react-dom` | TypeScript type definitions |
+| `eslint` ^9 + `eslint-config-next` | Linting |
+
+## Project structure
+
+```
+app/
+  page.tsx            # Landing page
+  chatbot/page.tsx    # Chatbot interface
+  profile/page.tsx    # User profile
+  layout.tsx          # Root layout
+  globals.css         # Global styles (Tailwind)
+
+components/
+  landing/            # Landing page sections
+    Header.tsx
+    Features.tsx
+    HowItWorks.tsx
+    Demo.tsx
+    Results.tsx
+    Footer.tsx
+    Divider.tsx
+  chatbot/            # Chat UI
+    ChatBubble.tsx
+    ChatHeader.tsx
+    FilmCard.tsx
+  profile/
+    Profile.tsx
+  Navbar.tsx
+```
+
+## Setup from scratch (how this project was initialised)
+
+If you want to recreate this stack from zero:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
+# Create a Next.js project (includes React, TypeScript, ESLint, Tailwind, App Router)
+bunx create-next-app@latest eliza \
+  --typescript \
+  --tailwind \
+  --eslint \
+  --app \
+  --turbopack \
+  --src-dir=false \
+  --import-alias "@/*"
+
+cd eliza
+
+# Add Radix UI components
+bun add @radix-ui/react-avatar @radix-ui/react-tooltip
+
+# Add icon library
+bun add @remixicon/react
+```
+
+> `create-next-app` automatically installs `react`, `react-dom`, `next`, `tailwindcss`, `typescript` and their type definitions.
+
+---
+
+## Prerequisites
+
+Install [Bun](https://bun.sh) if you don't have it:
+
+```bash
+curl -fsSL https://bun.sh/install | bash
+```
+
+> Node.js (>=18) also works as an alternative with `npm` or `yarn`, but this project is optimised for Bun.
+
+## Getting started
+
+```bash
+# 1. Clone the repo
+git clone <repo-url>
+cd eliza
+
+# 2. Install dependencies
+bun install
+
+# 3. Start the dev server (Turbopack)
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## All commands
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+bun dev           # Start development server with Turbopack (hot reload)
+bun run build     # Build for production
+bun run start     # Start the production server (run build first)
+bun run lint      # Run ESLint across the project
+```
 
-## Learn More
+### With npm (alternative)
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm install
+npm run dev
+npm run build
+npm run start
+npm run lint
+```

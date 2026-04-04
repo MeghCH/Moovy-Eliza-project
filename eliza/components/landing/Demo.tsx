@@ -21,13 +21,29 @@ export default function Demo() {
           <div className="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center shrink-0">
             <span className="text-white text-xs">{feature.icon}</span>
           </div>
-          <div className="bg-white/10 rounded-xl px-4 py-2 text-white text-sm">
+          <div
+            style={{
+              padding: "8px 16px",
+              fontSize: "14px",
+              backgroundColor: "rgba(255,255,255,0.1)",
+              color: "white",
+              borderRadius: "0px 12px 12px 12px",
+            }}
+          >
             Un film pour frissonner un dimanche ?
           </div>
         </div>
 
         <div className="flex justify-end">
-          <div className="bg-purple-600 rounded-xl px-6 py-2 text-white text-sm max-w-xs text-center">
+          <div
+            style={{
+              padding: "8px 24px",
+              fontSize: "14px",
+              backgroundColor: "#7c3aed",
+              color: "white",
+              borderRadius: "12px 0px 12px 12px",
+            }}
+          >
             Oui, un vieux film
           </div>
         </div>
@@ -36,7 +52,15 @@ export default function Demo() {
           <div className="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center shrink-0">
             <span className="text-white text-xs">{feature.icon}</span>
           </div>
-          <div className="bg-white/10 rounded-xl px-4 py-2 text-white text-sm">
+          <div
+            style={{
+              padding: "8px 16px",
+              fontSize: "14px",
+              backgroundColor: "rgba(255,255,255,0.1)",
+              color: "white",
+              borderRadius: "0px 12px 12px 12px",
+            }}
+          >
             Voici 3 films parfaits pour toi :
           </div>
         </div>
