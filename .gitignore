@@ -5,3 +5,10 @@ __pycache__/
 __pytest__/
 eliza.pdf
 documents/
+.ruff_cache
+eliza.md
+*.csv
+*.xml
+.misc/
+cache/
+.env
