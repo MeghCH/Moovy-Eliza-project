@@ -112,6 +112,33 @@ async def help_slash_profile(interaction: discord.Interaction):
     )
 
 
+@bot.tree.command(
+    name="policy",
+    description="View the bot's privacy and data policy",
+)
+async def policy_command(interaction: discord.Interaction):
+    policy_message = """
+## **Privacy & Data Policy**
+### **1. Data Collection:**
+- The bot uses **publicly available data** from your Letterboxd profile (reviews, ratings, and watched movies).
+- No private or sensitive data is collected.
+### **2. Data Storage:**
+- Your movie preferences are stored as a JSON file indefinitely.
+- You can completely delete your profile anytime using `/delete_profile`.
+### **3. Ethical Considerations:**
+- **Transparency:** This bot is an AI tool, not a human. Recommendations are algorithmic.
+- **No Filter Bubbles:** We include "hidden gems" to broaden your movie choices.
+- **No Commercial Bias:** Recommendations are based on your tastes, not ads.
+### **4. User Control:**
+- Use `/delete_profile` to remove your data.
+- Use `/profile` to start fresh.
+### **5. Feedback & Improvements:**
+- Your feedback helps improve the bot. Use `/feedback` to share your thoughts.
+By using this bot, you agree to this policy. For questions, contact the developer.
+"""
+    await interaction.response.send_message(policy_message)
+
+
 load_dotenv()
 token = str(os.getenv("DISCORD_TOKEN"))
 bot.run(token)
