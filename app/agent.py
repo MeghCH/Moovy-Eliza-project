@@ -1,13 +1,14 @@
 import json
 import os
 
+from dotenv import load_dotenv
 from strands import Agent
 from strands.models.ollama import OllamaModel
-
 from subfunctions.profile_prompter import run_profile_prompter
 
+load_dotenv()
 ollama_model = OllamaModel(
-    host="http://localhost:11434",
+    host=str(os.getenv("OLLAMA_URL")),
     model_id="granite4:3b",
 )
 
