@@ -47,6 +47,8 @@ async def on_resumed():
 # This below is the 'profile' function :
 # It allow the bot to create a preference profile of the user based on his last Letterboxd Reviews
 
+# Here are the command that uses / as a prefix. It uses the discrod embedded autocompletion system for a better visual and ux experience
+
 
 @bot.tree.command(
     name="profile",
