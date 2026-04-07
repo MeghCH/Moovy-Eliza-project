@@ -6,6 +6,7 @@ from agent import profile
 from discord import app_commands
 from discord.ext import commands
 from dotenv import load_dotenv
+from subfunctions.json_deleter import delete_json_file
 from subfunctions.json_reader import read_json_file
 
 intents = discord.Intents.default()
@@ -82,6 +83,19 @@ async def json_slash_command(interaction: discord.Interaction):
 
     await interaction.response.send_message(
         f"Here is your profile data:\n```json\n{json.dumps(data, indent=4)}\n```"
+    )
+
+
+@bot.tree.command(
+    name="delete_profile",
+    description="Allows the user to delete his profile from our data.",
+)
+async def delete_slash_profile(interaction: discord.Interaction):
+    """Allows the user to delete his profile from our data."""
+    discord_user = interaction.user.name
+    delete_json_file(discord_user)
+    await interaction.response.send_message(
+        "Your data is fully deleted, see you at the next one !"
     )
 
 
