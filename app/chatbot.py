@@ -2,11 +2,11 @@ import json
 import os
 
 import discord
+from agent import profile
 from discord import app_commands
 from discord.ext import commands
 from dotenv import load_dotenv
-
-from agent import profile
+from subfunctions.json_deleter import delete_json_file
 from subfunctions.json_reader import read_json_file
 
 intents = discord.Intents.default()
@@ -56,7 +56,7 @@ async def on_resumed():
 async def profile_slash_command(interaction: discord.Interaction, username: str):
     """Generate a user profile based on their Letterboxd history."""
     await interaction.response.send_message(
-        f"Generating profile for {username}, please wait a minute before sending another command"
+        f"*This bot uses your public Letterboxd reviews to generate recommendations. No private data is collected. By sending this command, you consent us to store public letterboxd data. See more here: `/policy`*\n**Generating profile for** {username}, **please wait a minute before sending another command**"
     )
     discord_user = interaction.user.name
     profile(username, discord_user)
@@ -68,7 +68,7 @@ async def profile_slash_command(interaction: discord.Interaction, username: str)
 
 @bot.tree.command(
     name="json",
-    description="Allows user to get the JSON profile file, only a draft for future features",
+    description="Allows user to get the JSON profile file, only a draft for future features.",
 )
 async def json_slash_command(interaction: discord.Interaction):
     """Output the JSON depending on the discord user."""
@@ -83,6 +83,19 @@ async def json_slash_command(interaction: discord.Interaction):
 
     await interaction.response.send_message(
         f"Here is your profile data:\n```json\n{json.dumps(data, indent=4)}\n```"
+    )
+
+
+@bot.tree.command(
+    name="delete_profile",
+    description="Allows the user to delete his profile from our data.",
+)
+async def delete_slash_profile(interaction: discord.Interaction):
+    """Allows the user to delete his profile from our data."""
+    discord_user = interaction.user.name
+    delete_json_file(discord_user)
+    await interaction.response.send_message(
+        "Your data is fully deleted, see you at the next one !"
     )
 
 
