@@ -47,6 +47,8 @@ async def on_resumed():
 # This below is the 'profile' function :
 # It allow the bot to create a preference profile of the user based on his last Letterboxd Reviews
 
+# Here are the command that uses / as a prefix. It uses the discrod embedded autocompletion system for a better visual and ux experience
+
 
 @bot.tree.command(
     name="profile",
@@ -97,6 +99,44 @@ async def delete_slash_profile(interaction: discord.Interaction):
     await interaction.response.send_message(
         "Your data is fully deleted, see you at the next one !"
     )
+
+
+@bot.tree.command(
+    name="help",
+    description="Shows all the commands avaliable.",
+)
+async def help_slash_profile(interaction: discord.Interaction):
+    """Shows all the avaliable commands."""
+    await interaction.response.send_message(
+        "**There are all the commands avaliables :**\n\n`/help`: Shows all the commands avaliable\n`/profile`: Generate a recommandation profile for each user based on the Letterboxd user.\n`/delete_profile`: Allows you to delete all the data about you.\n`/json`: Allows you to see the json recommendation profile."
+    )
+
+
+@bot.tree.command(
+    name="policy",
+    description="View the bot's privacy and data policy",
+)
+async def policy_command(interaction: discord.Interaction):
+    policy_message = """
+## **Privacy & Data Policy**
+### **1. Data Collection:**
+- The bot uses **publicly available data** from your Letterboxd profile (reviews, ratings, and watched movies).
+- No private or sensitive data is collected.
+### **2. Data Storage:**
+- Your movie preferences are stored as a JSON file indefinitely.
+- You can completely delete your profile anytime using `/delete_profile`.
+### **3. Ethical Considerations:**
+- **Transparency:** This bot is an AI tool, not a human. Recommendations are algorithmic.
+- **No Filter Bubbles:** We include "hidden gems" to broaden your movie choices.
+- **No Commercial Bias:** Recommendations are based on your tastes, not ads.
+### **4. User Control:**
+- Use `/delete_profile` to remove your data.
+- Use `/profile` to start fresh.
+### **5. Feedback & Improvements:**
+- Your feedback helps improve the bot. Use `/feedback` to share your thoughts.
+By using this bot, you agree to this policy. For questions, contact the developer.
+"""
+    await interaction.response.send_message(policy_message)
 
 
 load_dotenv()
