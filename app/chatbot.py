@@ -55,7 +55,7 @@ async def on_resumed():
 async def profile_slash_command(interaction: discord.Interaction, username: str):
     """Generate a user profile based on their Letterboxd history."""
     await interaction.response.send_message(
-        f"*This bot uses your public Letterboxd reviews to generate recommendations. No private data is collected. By sending this command, you consent us to store public letterboxd data.*\n**Generating profile for** {username}, **please wait a minute before sending another command**"
+        f"*This bot uses your public Letterboxd reviews to generate recommendations. No private data is collected. By sending this command, you consent us to store public letterboxd data. See more here: `/policy`*\n**Generating profile for** {username}, **please wait a minute before sending another command**"
     )
     discord_user = interaction.user.name
     profile(username, discord_user)
