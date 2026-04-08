@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from strands import Agent
 from strands.models.ollama import OllamaModel
 from subfunctions.profile_prompter import run_profile_prompter
-from subfunctions.moviedb_reader import get_movies_genres
+from subfunctions.moviedb_reader import get_movies_genres, get_movies_by_title
 from subfunctions.get_preffered import get_pref_genre
 
 load_dotenv()
@@ -78,3 +78,5 @@ Nothing more, nothing less. No conversational filler.
     )
     return response
 
+
+    
