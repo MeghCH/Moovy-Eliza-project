@@ -5,11 +5,13 @@ from dotenv import load_dotenv
 from strands import Agent
 from strands.models.ollama import OllamaModel
 from subfunctions.profile_prompter import run_profile_prompter
+from subfunctions.moviedb_reader import get_movies_genres
+from subfunctions.get_preffered import get_pref_genre
 
 load_dotenv()
 ollama_model = OllamaModel(
     host=str(os.getenv("OLLAMA_URL")),
-    model_id="granite4:3b",
+    model_id="granite4:latest",
 )
 
 agent = Agent(model=ollama_model)
@@ -53,3 +55,20 @@ def profile(username, discord_user):
         import traceback
 
         traceback.print_exc()
+    
+def recommendations(discord_user):
+    movies = []
+    genres_list = get_pref_genre(discord_user)
+    print(genres_list)
+    for genre in genres_list:
+        movies.append(get_movies_genres(genre))
+    response = agent(
+        f"""
+            Here is a list of movies.
+            Take 2 movies of each of theses genres : {genres_list} and write a message to recommend them to the user.
+            Write only the raw message. Nothing more, nothing less.
+            The message needs to take this style : 'Since I know you like this kind of movies, here are some of them I can recommend to you ...'
+            Here is the list : {movies} 
+        """
+    )
+    return response
