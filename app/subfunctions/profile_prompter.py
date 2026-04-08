@@ -143,6 +143,7 @@ Analyze the following CSV containing a user's watched movie history. The CSV inc
 }}
 
 The response need to be raw. No markdown syntax or anything else. Only raw json text
+The score should only be in range 0 to 1 and only be this number.
 
 Here is the CSV:
 
