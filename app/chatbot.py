@@ -64,7 +64,7 @@ async def profile_slash_command(interaction: discord.Interaction, username: str)
     profile(username, discord_user)
 
 
-# Here is the 'JSON' output' function :
+# Here is the 'JSON' output function :
 # It's just a draft for the recommendation function : getting the JSON depending on the discord user
 
 
@@ -88,6 +88,10 @@ async def json_slash_command(interaction: discord.Interaction):
     )
 
 
+# Here is the Delete Profile function :
+# It allows the user to delete his profile and stored data about him
+
+
 @bot.tree.command(
     name="delete_profile",
     description="Allows the user to delete his profile from our data.",
@@ -101,6 +105,10 @@ async def delete_slash_profile(interaction: discord.Interaction):
     )
 
 
+# Here is the Help function :
+# It allows the user to see all avaliables functions
+
+
 @bot.tree.command(
     name="help",
     description="Shows all the commands avaliable.",
@@ -110,6 +118,10 @@ async def help_slash_profile(interaction: discord.Interaction):
     await interaction.response.send_message(
         "**There are all the commands avaliables :**\n\n`/help`: Shows all the commands avaliable\n`/profile`: Generate a recommandation profile for each user based on the Letterboxd user.\n`/delete_profile`: Allows you to delete all the data about you.\n`/json`: Allows you to see the json recommendation profile."
     )
+
+
+# Here is the Policy function :
+# It allows the user to see the bot's policy
 
 
 @bot.tree.command(
