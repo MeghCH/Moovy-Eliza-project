@@ -155,17 +155,18 @@ By using this bot, you agree to this policy. For questions, contact the develope
     name="recommendation",
     description="Recommend movies based on your profile.",
 )
-async def json_slash_command(interaction: discord.Interaction):
+async def reco_slash_command(interaction: discord.Interaction):
     """Recommend movies based on his preference profile."""
     await interaction.response.defer()
 
     try:
         discord_user = interaction.user.name
-        data = recommendations(discord_user)
+        data = str(recommendations(discord_user))
         await interaction.followup.send(data)
-        
+
     except Exception as e:
         await interaction.followup.send(f"Une erreur est survenue : {e}")
+
 
 load_dotenv()
 token = str(os.getenv("DISCORD_TOKEN"))
