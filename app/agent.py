@@ -72,3 +72,4 @@ def recommendations(discord_user):
         """
     )
     return response
+
