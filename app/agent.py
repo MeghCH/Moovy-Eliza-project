@@ -4,9 +4,9 @@ import os
 from dotenv import load_dotenv
 from strands import Agent
 from strands.models.ollama import OllamaModel
-from subfunctions.profile_prompter import run_profile_prompter
-from subfunctions.moviedb_reader import get_movies_genres
 from subfunctions.get_preffered import get_pref_genre
+from subfunctions.moviedb_reader import get_movies_genres
+from subfunctions.profile_prompter import run_profile_prompter
 
 load_dotenv()
 ollama_model = OllamaModel(
@@ -55,7 +55,8 @@ def profile(username, discord_user):
         import traceback
 
         traceback.print_exc()
-    
+
+
 def recommendations(discord_user):
     movies = []
     genres_list = get_pref_genre(discord_user)
@@ -80,11 +81,11 @@ Nothing more, nothing less. No conversational filler.
 
 
 def recommendations_per_genres(genre_asked):
-  
+
     movies_list = get_movies_genres(genre_asked)
     print(f"Films trouvés pour {genre_asked}: {movies_list}")
-   
-    response = agent (
+
+    response = agent(
         f"""
         Here is a list of movies in the {genre_asked} genre: {movies_list}
 
@@ -98,4 +99,4 @@ def recommendations_per_genres(genre_asked):
             Nothing more, nothing less. No conversational filler. Only the raw message.
         """
     )
-    return response 
+    return response
