@@ -64,11 +64,38 @@ def recommendations(discord_user):
         movies.append(get_movies_genres(genre))
     response = agent(
         f"""
-            Here is a list of movies.
-            Take 2 movies of each of theses genres : {genres_list} and write a message to recommend them to the user.
-            Write only the raw message. Nothing more, nothing less.
-            The message needs to take this style : 'Since I know you like this kind of movies, here are some of them I can recommend to you ...'
-            Here is the list : {movies} 
+            Here is a list of movies: {movies}
+
+Based on this list, select exactly 2 movies for each of the following genres: {genres_list}.
+
+Write only the raw message following this specific structure:
+1. Start strictly with: "Since I know you like this kind of movies, here are some of them I can recommend to you..."
+2. Group the movies by genre.
+3. Use bold for the genre names and bullet points for the movies.
+
+Nothing more, nothing less. No conversational filler.
         """
     )
     return response
+
+
+def recommendations_per_genres(genre_asked):
+  
+    movies_list = get_movies_genres(genre_asked)
+    print(f"Films trouvés pour {genre_asked}: {movies_list}")
+   
+    response = agent (
+        f"""
+        Here is a list of movies in the {genre_asked} genre: {movies_list}
+
+            Based on this list, select exactly 3 to 5 high-quality movies.
+
+            Write only the raw message following this specific structure:
+            1. Start strictly with: "Since you're looking for {genre_asked} movies, here are some recommendations for you..."
+            2. Use a bulleted list for the movies.
+            3. Include a very brief (one sentence) description of why each movie fits the genre.
+
+            Nothing more, nothing less. No conversational filler. Only the raw message.
+        """
+    )
+    return response 

@@ -1,6 +1,8 @@
 import requests
-def get_movies_genres(genre): 
+from subfunctions.uniform_text import uniform_text
 
+def get_movies_genres(genre): 
+    genre = uniform_text(genre) 
     url = f"https://moviedb.wyliam.fr/genres/{genre}"
  
     response = requests.get(url)
@@ -21,5 +23,7 @@ def get_genre():
         return data
     else : 
         return f"Error{response.status_code} : Not found"
+
     
-get_movies_genres("drama")
+
+    
