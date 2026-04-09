@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from strands import Agent
 from strands.models.ollama import OllamaModel
 from subfunctions.profile_prompter import run_profile_prompter
-from subfunctions.moviedb_reader import get_movies_genres, get_movies_by_title
+from subfunctions.moviedb_reader import get_movies_genres
 from subfunctions.get_preffered import get_pref_genre
 
 load_dotenv()
@@ -79,4 +79,23 @@ Nothing more, nothing less. No conversational filler.
     return response
 
 
-    
+def recommendations_per_genres(genre_asked):
+  
+    movies_list = get_movies_genres(genre_asked)
+    print(f"Films trouvés pour {genre_asked}: {movies_list}")
+   
+    response = agent (
+        f"""
+        Here is a list of movies in the {genre_asked} genre: {movies_list}
+
+            Based on this list, select exactly 3 to 5 high-quality movies.
+
+            Write only the raw message following this specific structure:
+            1. Start strictly with: "Since you're looking for {genre_asked} movies, here are some recommendations for you..."
+            2. Use a bulleted list for the movies.
+            3. Include a very brief (one sentence) description of why each movie fits the genre.
+
+            Nothing more, nothing less. No conversational filler. Only the raw message.
+        """
+    )
+    return response

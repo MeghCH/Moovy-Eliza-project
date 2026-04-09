@@ -2,7 +2,7 @@ import json
 import os
 
 import discord
-from agent import profile, recommendations
+from agent import profile, recommendations, recommendations_per_genres
 from discord import app_commands
 from discord.ext import commands
 from dotenv import load_dotenv
@@ -167,6 +167,35 @@ async def reco_slash_command(interaction: discord.Interaction):
     except Exception as e:
         await interaction.followup.send(f"Une erreur est survenue : {e}")
 
+
+
+GENRES = [
+"Drama", "Family", "Fantasy", "Romance", "Comedy", "Animation",
+"Sci-Fi", "Action", "Adventure", "Documentary", "Horror", "History", "Musical",
+"Mystery", "Crime", "Sport", "Thriller", "War", "western"
+    ]
+
+async def genre_autocomplete(
+    interaction: discord.Interaction,
+    current: str,
+) -> list[app_commands.Choice[str]]:
+    return [
+        app_commands.Choice(name=genre, value=genre)
+        for genre in GENRES if current.lower() in genre.lower()
+    ][:25]
+
+@bot.tree.command(
+    name="recommendation-par-genre",
+    description="Recommande des films selon le genre choisi.",
+)
+@app_commands.autocomplete(genre=genre_autocomplete) 
+async def reco_slash_command(interaction: discord.Interaction, genre: str):
+    await interaction.response.defer()
+    
+    resultat = recommendations_per_genres(genre)
+    
+    
+    await interaction.followup.send(f"Here somes recommendations for the genre **{genre}** :\n{resultat}")
 
 load_dotenv()
 token = str(os.getenv("DISCORD_TOKEN"))

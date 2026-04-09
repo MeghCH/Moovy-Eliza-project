@@ -23,8 +23,6 @@ def get_genre():
         return data
     else : 
         return f"Error{response.status_code} : Not found"
-    
-get_movies_genres("drama")
 
     
 
