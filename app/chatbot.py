@@ -8,6 +8,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 from subfunctions.json_deleter import delete_json_file
 from subfunctions.json_reader import read_json_file
+from subfunctions.lookalike import lookalike
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -201,6 +202,22 @@ async def reco_genre_slash_command(interaction: discord.Interaction, genre: str)
         await interaction.followup.send(f"Une erreur est survenue : {e}")
         
         
+@bot.tree.command(
+    name="lookalike",
+    description="Find 3 movies with a similar style to a movie you liked.",
+)
+@app_commands.describe(message="Describe the movie you want lookalikes for (e.g. 'I would like a film in the same style as Uncharted')")
+async def lookalike_slash_command(interaction: discord.Interaction, message: str):
+    """Find 3 movies similar in style to a given movie."""
+    await interaction.response.defer()
+
+    try:
+        result = lookalike(message)
+        await interaction.followup.send(result)
+    except Exception as e:
+        await interaction.followup.send(f"Une erreur est survenue : {e}")
+
+
 load_dotenv()
 token = str(os.getenv("DISCORD_TOKEN"))
 bot.run(token)
