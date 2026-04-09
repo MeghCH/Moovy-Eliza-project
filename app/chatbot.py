@@ -172,9 +172,8 @@ async def reco_slash_command(interaction: discord.Interaction):
 GENRES = [
 "Drama", "Family", "Fantasy", "Romance", "Comedy", "Animation",
 "Sci-Fi", "Action", "Adventure", "Documentary", "Horror", "History", "Musical",
-"Mystery", "Crime", "Sport", "Thriller", "War", "western"
+"Mystery", "Crime", "Sport", "Thriller", "War", "Western"
     ]
-
 async def genre_autocomplete(
     interaction: discord.Interaction,
     current: str,
@@ -184,19 +183,24 @@ async def genre_autocomplete(
         for genre in GENRES if current.lower() in genre.lower()
     ][:25]
 
+
 @bot.tree.command(
-    name="recommendation-par-genre",
-    description="Recommande des films selon le genre choisi.",
+    name="recommendation-genre", 
+    description="Recommend movies based on a genre asked for.",
 )
 @app_commands.autocomplete(genre=genre_autocomplete) 
-async def reco_slash_command(interaction: discord.Interaction, genre: str):
+async def reco_genre_slash_command(interaction: discord.Interaction, genre: str):
+    """Recommend movies based on a specific genre asked for."""
     await interaction.response.defer()
-    
-    resultat = recommendations_per_genres(genre)
-    
-    
-    await interaction.followup.send(f"Here somes recommendations for the genre **{genre}** :\n{resultat}")
 
+    try:
+        data = str(recommendations_per_genres(genre))
+        await interaction.followup.send(f"There is a list of films for the genre **{genre}** :\n{data}")
+
+    except Exception as e:
+        await interaction.followup.send(f"Une erreur est survenue : {e}")
+        
+        
 load_dotenv()
 token = str(os.getenv("DISCORD_TOKEN"))
 bot.run(token)

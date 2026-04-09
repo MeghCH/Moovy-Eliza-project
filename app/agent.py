@@ -98,4 +98,4 @@ def recommendations_per_genres(genre_asked):
             Nothing more, nothing less. No conversational filler. Only the raw message.
         """
     )
-    return response
+    return response 
