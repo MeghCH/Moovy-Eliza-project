@@ -4,17 +4,24 @@ import os
 from dotenv import load_dotenv
 from strands import Agent
 from strands.models.ollama import OllamaModel
-from subfunctions.profile_prompter import run_profile_prompter
-from subfunctions.moviedb_reader import get_movies_genres
 from subfunctions.get_preffered import get_pref_genre
+from subfunctions.moviedb_reader import get_movies_genres
+from subfunctions.profile_prompter import run_profile_prompter
 
 load_dotenv()
-ollama_model = OllamaModel(
+
+granite = OllamaModel(
     host=str(os.getenv("OLLAMA_URL")),
-    model_id="granite4:latest",
+    model_id="granite4:3b",
 )
 
-agent = Agent(model=ollama_model)
+gemma = OllamaModel(
+    host=str(os.getenv("OLLAMA_URL")),
+    model_id="gemma4:e4b",
+)
+
+granite_agent = Agent(model=granite)
+gemma_agent = Agent(model=gemma)
 
 
 def profile(username, discord_user):
@@ -26,7 +33,7 @@ def profile(username, discord_user):
         return
 
     try:
-        response = agent(markdown_content)
+        response = granite_agent(markdown_content)
         print("Agent response:")
         print(response)
 
@@ -55,14 +62,15 @@ def profile(username, discord_user):
         import traceback
 
         traceback.print_exc()
-    
+
+
 def recommendations(discord_user):
     movies = []
     genres_list = get_pref_genre(discord_user)
     print(genres_list)
     for genre in genres_list:
         movies.append(get_movies_genres(genre))
-    response = agent(
+    response = gemma_agent(
         f"""
             Here is a list of movies: {movies}
 
@@ -80,11 +88,11 @@ Nothing more, nothing less. No conversational filler.
 
 
 def recommendations_per_genres(genre_asked):
-  
+
     movies_list = get_movies_genres(genre_asked)
     print(f"Films trouvés pour {genre_asked}: {movies_list}")
-   
-    response = agent (
+
+    response = gemma_agent(
         f"""
         Here is a list of movies in the {genre_asked} genre: {movies_list}
 
@@ -98,4 +106,4 @@ def recommendations_per_genres(genre_asked):
             Nothing more, nothing less. No conversational filler. Only the raw message.
         """
     )
-    return response 
+    return response

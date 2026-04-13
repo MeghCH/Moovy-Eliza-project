@@ -169,44 +169,66 @@ async def reco_slash_command(interaction: discord.Interaction):
         await interaction.followup.send(f"Une erreur est survenue : {e}")
 
 
-
 GENRES = [
-"Drama", "Family", "Fantasy", "Romance", "Comedy", "Animation",
-"Sci-Fi", "Action", "Adventure", "Documentary", "Horror", "History", "Musical",
-"Mystery", "Crime", "Sport", "Thriller", "War", "Western"
-    ]
+    "Drama",
+    "Family",
+    "Fantasy",
+    "Romance",
+    "Comedy",
+    "Animation",
+    "Sci-Fi",
+    "Action",
+    "Adventure",
+    "Documentary",
+    "Horror",
+    "History",
+    "Musical",
+    "Mystery",
+    "Crime",
+    "Sport",
+    "Thriller",
+    "War",
+    "Western",
+]
+
+
 async def genre_autocomplete(
     interaction: discord.Interaction,
     current: str,
 ) -> list[app_commands.Choice[str]]:
     return [
         app_commands.Choice(name=genre, value=genre)
-        for genre in GENRES if current.lower() in genre.lower()
+        for genre in GENRES
+        if current.lower() in genre.lower()
     ][:25]
 
 
 @bot.tree.command(
-    name="recommendation-genre", 
+    name="recommendation-genre",
     description="Recommend movies based on a genre asked for.",
 )
-@app_commands.autocomplete(genre=genre_autocomplete) 
+@app_commands.autocomplete(genre=genre_autocomplete)
 async def reco_genre_slash_command(interaction: discord.Interaction, genre: str):
     """Recommend movies based on a specific genre asked for."""
     await interaction.response.defer()
 
     try:
         data = str(recommendations_per_genres(genre))
-        await interaction.followup.send(f"There is a list of films for the genre **{genre}** :\n{data}")
+        await interaction.followup.send(
+            f"There is a list of films for the genre **{genre}** :\n{data}"
+        )
 
     except Exception as e:
         await interaction.followup.send(f"Une erreur est survenue : {e}")
-        
-        
+
+
 @bot.tree.command(
     name="lookalike",
     description="Find 3 movies with a similar style to a movie you liked.",
 )
-@app_commands.describe(message="Describe the movie you want lookalikes for (e.g. 'I would like a film in the same style as Uncharted')")
+@app_commands.describe(
+    message="Describe the movie you want lookalikes for (e.g. 'I would like a film in the same style as Uncharted')"
+)
 async def lookalike_slash_command(interaction: discord.Interaction, message: str):
     """Find 3 movies similar in style to a given movie."""
     await interaction.response.defer()
