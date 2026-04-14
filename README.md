@@ -1,5 +1,5 @@
 # **Moovy Eliza Project**
-# Moovy Eliza - Backend Engine
+### Backend Engine
 
 **Moovy Eliza** is an AI-powered movie recommendation agent. It leverages the `strands-agents` framework and **Ollama** for local (or remote) LLM inference, providing a conversational experience through **Discord**.
 
