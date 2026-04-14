@@ -1,15 +1,15 @@
 import os
 
+from dotenv import load_dotenv
 from strands import Agent
 from strands.models.ollama import OllamaModel
-from dotenv import load_dotenv
 from subfunctions.moviedb_reader import get_genre, get_movies_genres
 
 load_dotenv()
 
 _ollama_model = OllamaModel(
     host=str(os.getenv("OLLAMA_URL")),
-    model_id="granite4:latest",
+    model_id="granite4:3b",
 )
 
 _agent = Agent(model=_ollama_model)

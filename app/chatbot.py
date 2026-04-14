@@ -2,7 +2,7 @@ import json
 import os
 
 import discord
-from agent import profile, recommendations, recommendations_per_genres
+from agent import basic_response, profile, recommendations, recommendations_per_genres
 from discord import app_commands
 from discord.ext import commands
 from dotenv import load_dotenv
@@ -14,6 +14,18 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix="/", intents=intents)
+
+# Natural Language Processing setup
+NLP_INTENTS = {
+    "recommend": ["recommend", "suggest", "advise"],
+    "movie": ["movie", "film", "movies", "films"],
+    "profile": ["profile", "data", "info", "information"],
+    "delete": ["delete", "remove", "erase", "clear"],
+    "help": ["help", "commands", "what can you do"],
+    "policy": ["policy", "privacy", "data policy"],
+    "json": ["json", "raw data", "profile data"],
+    "lookalike": ["lookalike", "similar", "like", "same style"],
+}
 
 
 # Theses are events :
@@ -43,6 +55,94 @@ async def on_disconnect():
 @bot.event
 async def on_resumed():
     print("Bot session resumed!")
+
+
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+
+    user_message = message.content.lower()
+    discord_user = message.author.name
+
+    words = set(user_message.split())
+
+    if any(word in words for word in NLP_INTENTS["recommend"]) and any(
+        word in words for word in NLP_INTENTS["movie"]
+    ):
+        try:
+            await message.channel.send("*Generating recommendations for you...*")
+            data = str(recommendations(discord_user))
+            await message.channel.send(data)
+        except Exception as e:
+            await message.channel.send(f"An error occurred: {e}")
+
+    # Read profile intent
+    elif any(word in words for word in NLP_INTENTS["profile"]):
+        data = read_json_file(discord_user)
+        if data is None:
+            await message.channel.send("Error: Could not read your profile JSON file.")
+        else:
+            await message.channel.send(
+                f"Here is your profile data:\n```json\n{json.dumps(data, indent=4)}\n```"
+            )
+
+    # Delete intent
+    elif any(word in words for word in NLP_INTENTS["delete"]) and any(
+        word in words for word in NLP_INTENTS["profile"]
+    ):
+        delete_json_file(discord_user)
+        await message.channel.send("Your data is fully deleted!")
+
+    # Help intent
+    elif any(word in words for word in NLP_INTENTS["help"]):
+        await message.channel.send(
+            "**Here are all the commands available:**\n\n"
+            "`/help`: Shows all the commands available\n"
+            "`/profile`: Generate a recommendation profile for each user based on the Letterboxd user.\n"
+            "`/delete_profile`: Allows you to delete all the data about you.\n"
+            "`/json`: Allows you to see the JSON recommendation profile.\n"
+            "`/recommendation`: Recommend movies based on your profile.\n"
+            "`/recommendation-genre`: Recommend movies based on a specific genre.\n"
+            "`/lookalike`: Find 3 movies with a similar style to a movie you liked."
+        )
+
+    # Policy intent
+    elif any(word in words for word in NLP_INTENTS["policy"]):
+        policy_message = """
+## **Privacy & Data Policy**
+### **1. Data Collection:**
+- The bot uses **publicly available data** from your Letterboxd profile (reviews, ratings, and watched movies).
+- No private or sensitive data is collected.
+### **2. Data Storage:**
+- Your movie preferences are stored as a JSON file indefinitely.
+- You can completely delete your profile anytime using `/delete_profile`.
+### **3. Ethical Considerations:**
+- **Transparency:** This bot is an AI tool, not a human. Recommendations are algorithmic.
+- **No Filter Bubbles:** We include "hidden gems" to broaden your movie choices.
+- **No Commercial Bias:** Recommendations are based on your tastes, not ads.
+### **4. User Control:**
+- Use `/delete_profile` to remove your data.
+- Use `/profile` to start fresh.
+### **5. Feedback & Improvements:**
+- Your feedback helps improve the bot. Use `/feedback` to share your thoughts.
+By using this bot, you agree to this policy. For questions, contact the developer.
+"""
+        await message.channel.send(policy_message)
+
+    # Lookalike intent
+    elif any(word in words for word in NLP_INTENTS["lookalike"]):
+        try:
+            result = lookalike(user_message)
+            await message.channel.send(result)
+        except Exception as e:
+            await message.channel.send(f"An error occurred: {e}")
+
+    else:
+        output = basic_response(user_message)
+        await message.channel.send(output)
+
+    await bot.process_commands(message)
 
 
 # This below is the 'profile' function :
