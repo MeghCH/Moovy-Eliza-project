@@ -13,11 +13,23 @@ load_dotenv()
 granite = OllamaModel(
     host=str(os.getenv("OLLAMA_URL")),
     model_id="granite4:3b",
+    # system_prompt=(
+    #    """
+    #    You are a expert in movies and cinema. You've seen every film ever realeased. From the mainstream ones to the more niche ones.
+    #    Your role is to recommend and help the user when he need to find a movie that suits him.
+    #    """
+    # ),
 )
 
 gemma = OllamaModel(
     host=str(os.getenv("OLLAMA_URL")),
-    model_id="gemma4:e4b",
+    model_id="gemma4:e2b",
+    # system_prompt=(
+    #    """
+    #    You are a expert in movies and cinema. You've seen every film ever realeased. From the mainstream ones to the more niche ones.
+    #    Your role is to recommend and help the user when he need to find a movie that suits him.
+    #    """
+    # ),
 )
 
 granite_agent = Agent(model=granite)
@@ -106,4 +118,9 @@ def recommendations_per_genres(genre_asked):
             Nothing more, nothing less. No conversational filler. Only the raw message.
         """
     )
+    return response
+
+
+def basic_response(message):
+    response = granite_agent(message)
     return response
