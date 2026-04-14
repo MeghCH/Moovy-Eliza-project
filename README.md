@@ -7,7 +7,7 @@
 
 * **Language:** Python 3
 * **Agent Framework:** `strands-agents` (Builder, Tools, and Ollama integration)
-* **LLM Engine:** Ollama (hosted at `https://ollama.wyligr.fr`)
+* **LLM Engine:** Ollama with differents LLM Open Source Models
 * **Communication:** `discord.py`
 * **Data Management:** Local JSON caching and custom Python logic
 
@@ -42,10 +42,10 @@ Ensure you have Python 3.12 installed. It is highly recommended to use a virtual
 ```bash
 # Clone the repository and navigate to the app folder
 # Create a virtual environment
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
+python -m venv .venv
+source .venv/bin/activate  # Linux/Mac
 # or
-.\venv\Scripts\activate   # Windows
+.\.venv\Scripts\activate   # Windows
 
 # Install dependencies
 pip install -r requirements.txt
@@ -54,13 +54,14 @@ pip install -r requirements.txt
 ### 3. Configuration
 Create a `.env` file in the root directory (refer to `app/example.env`):
 ```env
-DISCORD_TOKEN="your_discord_bot_token"
-OLLAMA_URL="https://ollama.wyligr.fr"
+DISCORD_TOKEN = "YOUR-DISCORD-DEVELOPPER-PORTAL-TOKEN"
+OLLAMA_URL = "http://localhost:11434"
+MOVIEDB_API = "htpps://example.com"
 ```
 
 ### 4. Running the Bot
 ```bash
-python app/chatbot.py
+python3 app/chatbot.py
 ```
 
 ---
@@ -76,17 +77,15 @@ The `subfunctions` directory acts as the "brain" of the agent, providing special
 | **`get_preffered.py`** | Parses user input to identify preferred genres. |
 | **`profile_prompter.py`** | Merges user history and movie data into a structured prompt for Eliza. |
 | **`json_manager`** | (`reader`/`deleter`) Handles CRUD operations on the `/cache/json` folder. |
-| **`uniform_text.py`** | Standardizes string inputs (regex cleaning, casing) for better matching. |
 
 ---
 
 ## Agent Workflow
 
 1.  **Input:** A user sends a message on Discord.
-2.  **Context:** `chatbot.py` identifies the user and retrieves their session from `cache/json/`.
-3.  **Processing:** The `agent.py` uses `strands-agents` to decide which `subfunctions` to call.
-4.  **Inference:** The processed context is sent to the **Ollama** endpoint.
-5.  **Output:** Moovy generates a natural language recommendation and sends it back to Discord.
+2.  **Context:** `chatbot.py` identifies the user intent with an NLP and, if needed, execute some sub agents for a specific task (recommendation, ....)
+3.  **Inference:** The processed context is sent to the **Ollama** endpoint.
+4.  **Output:** Moovy generates a natural language recommendation and sends it back to Discord.
 
 ---
 
@@ -94,5 +93,3 @@ The `subfunctions` directory acts as the "brain" of the agent, providing special
 
 * **Stateful Memory:** Uses local JSON files to remember user preferences across different Discord sessions.
 * **Modular Toolset:** Logic is decoupled from the agent framework, making it easy to swap the movie source or the similarity algorithm.
-* **Custom Personas:** Agent behavior can be tweaked by editing the markdown files in `cache/prompt/`.
-
