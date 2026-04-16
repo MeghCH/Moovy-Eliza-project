@@ -217,7 +217,7 @@ async def delete_slash_profile(interaction: discord.Interaction):
 async def help_slash_profile(interaction: discord.Interaction):
     """Shows all the avaliable commands."""
     await interaction.response.send_message(
-        "**There are all the commands avaliables :**\n\n`/help`: Shows all the commands avaliable\n`/profile`: Generate a recommandation profile for each user based on the Letterboxd user.\n`/delete_profile`: Allows you to delete all the data about you.\n`/json`: Allows you to see the json recommendation profile."
+        "**There are all the commands avaliables :**\n\n`/help`: Shows all the commands avaliable\n`/profile`: Generate a recommandation profile for each user based on the Letterboxd user.\n`/delete_profile`: Allows you to delete all the data about you.\n`/json`: Allows you to see the json recommendation profile.\n`/reccomendation`: Reccomend you movies.\n`/reccomendation-genre`: Reccomend you movies depending of the genre.\n`/lookalike`: Reccomend you movies that looks like another movie"
     )
 
 
