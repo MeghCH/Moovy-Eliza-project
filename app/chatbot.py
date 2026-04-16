@@ -364,6 +364,17 @@ async def lookalike_slash_command(interaction: discord.Interaction, message: str
         await interaction.followup.send(f"Une erreur est survenue : {e}")
 
 
+@bot.tree.command(
+    name="hello",
+    description="Say hello to the user",
+)
+async def hello_slash_command(interaction: discord.Interaction):
+    """Say hello to the user."""
+    await interaction.response.send_message(
+        f"Hello {interaction.user.mention}! How can I help you today?"
+    )
+
+
 load_dotenv()
 token = str(os.getenv("DISCORD_TOKEN"))
 bot.run(token)

@@ -1,23 +1,27 @@
 # Use an official Node.js runtime as the base image
-FROM node:18
+FROM oven/bun:1.1
 
 # Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json (if available)
-COPY package*.json ./
+# Install build dependencies for Turbopack
+RUN apt-get update && apt-get install -y python3 make g++
 
-# Install dependencies
-RUN npm install
+# Copy package.json and bun.lock
+COPY package*.json ./
+COPY bun.lock ./
+
+# Install dependencies using Bun
+RUN bun install
 
 # Copy the rest of the application
 COPY . .
 
 # Build the Next.js application
-RUN npm run build
+RUN bun run build
 
 # Expose the port the app runs on
 EXPOSE 3000
 
 # Command to run the application
-CMD ["npm", "start"]
+CMD ["bun", "run", "start"]
