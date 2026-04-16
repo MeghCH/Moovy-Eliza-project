@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 export default function Footer() {
   return (
     <section className="flex flex-col items-center text-center py-24 px-4">
@@ -7,12 +5,9 @@ export default function Footer() {
         Prêt à trouver ton film ?
       </h2>
       <p className="text-gray-400 mb-8">Gratuit, sans inscription</p>
-      <Link
-        href="/chatbot"
-        className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full font-medium transition-colors"
-      >
-        Lancez MooVy
-      </Link>
+      <span className="bg-purple-600 text-white px-8 py-3 rounded-full font-medium cursor-default">
+        Coming Soon
+      </span>
     </section>
   );
 }

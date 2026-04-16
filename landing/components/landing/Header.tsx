@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 export default function Header() {
   return (
     <section className="flex flex-col items-center justify-center text-center py-24 px-4">
@@ -12,12 +10,9 @@ export default function Header() {
       <p className="text-gray-400 text-lg mb-8">
         Décris ton humeur, MooVy fait le reste
       </p>
-      <Link
-        href="/chatbot"
-        className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full font-medium transition-colors"
-      >
-        Essayer gratuitement
-      </Link>
+      <span className="bg-purple-600 text-white px-8 py-3 rounded-full font-medium cursor-default">
+        Coming Soon
+      </span>
     </section>
   );
 }

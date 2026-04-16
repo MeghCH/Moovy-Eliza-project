@@ -52,7 +52,7 @@ export default function Navbar() {
         >
           M
         </Link>
-        <NavLink
+        {/* <NavLink
           href="/chatbot"
           icon={<RiAddLargeLine size={22} />}
           label="Nouveau chat"
@@ -66,13 +66,13 @@ export default function Navbar() {
           href="/recents"
           icon={<RiChat1Line size={22} />}
           label="Mes chats"
-        />
+        /> */}
       </div>
-      <NavLink
+      {/* <NavLink
         href="/profile"
         icon={<RiUser3Line size={22} />}
         label="Profil"
-      />
+      /> */}
     </nav>
   );
 }
