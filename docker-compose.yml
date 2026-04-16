@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  # Landing Page Service
+  landing:
+    build:
+      context: ./landing
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+
+  #  ollama:
+  #    image: ollama/ollama:3b
+  #    container_name: ollama
+  #    ports:
+  #      - 1477:17444
+  #    restart: unless-stopped
+
+  # Chatbot Service
+  chatbot:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    environment:
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - OLLAMA_URL=${OLLAMA_URL}
+      - MOVIEDB_API=${MOVIEDB_API}
+    restart: unless-stopped
+    depends_on:
+      - landing
+#      - ollama
