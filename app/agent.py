@@ -37,7 +37,6 @@ gemma_agent = Agent(model=gemma)
 
 
 def profile(username, discord_user):
-
     try:
         markdown_content = run_profile_prompter(username)
     except Exception as e:
@@ -96,11 +95,15 @@ Write only the raw message following this specific structure:
 Nothing more, nothing less. No conversational filler.
         """
     )
-    return response
+    # Ensure the response is a string and not a JSON object
+    if isinstance(response, dict):
+        response = response.get("recommendations", [])
+        if isinstance(response, list):
+            response = ", ".join(response)
+    return str(response)
 
 
 def recommendations_per_genres(genre_asked):
-
     movies_list = get_movies_genres(genre_asked)
     print(f"Films trouvés pour {genre_asked}: {movies_list}")
 
@@ -118,7 +121,12 @@ def recommendations_per_genres(genre_asked):
             Nothing more, nothing less. No conversational filler. Only the raw message.
         """
     )
-    return response
+    # Ensure the response is a string and not a JSON object
+    if isinstance(response, dict):
+        response = response.get("recommendations", [])
+        if isinstance(response, list):
+            response = ", ".join(response)
+    return str(response)
 
 
 def basic_response(message):

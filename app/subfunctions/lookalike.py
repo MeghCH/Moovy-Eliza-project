@@ -43,4 +43,9 @@ def lookalike(user_message: str) -> str:
         {movies_by_genre}
         """
     )
+    # Ensure the response is a string and not a JSON object
+    if isinstance(response, dict):
+        response = response.get("recommendations", [])
+        if isinstance(response, list):
+            response = ", ".join(response)
     return str(response)

@@ -17,8 +17,15 @@ bot = commands.Bot(command_prefix="/", intents=intents)
 
 # Natural Language Processing setup
 NLP_INTENTS = {
-    "recommend": ["recommend", "suggest", "advise"],
-    "movie": ["movie", "film", "movies", "films"],
+    "recommend": [
+        "recommend",
+        "reccomend",
+        "recommand",
+        "suggest",
+        "advise",
+        "suggestion",
+    ],
+    "movie": ["movie", "film", "movies", "films", "cinema"],
     "profile": ["profile", "data", "info", "information"],
     "delete": ["delete", "remove", "erase", "clear"],
     "help": ["help", "commands", "what can you do"],
@@ -71,8 +78,12 @@ async def on_message(message):
         word in words for word in NLP_INTENTS["movie"]
     ):
         try:
-            await message.channel.send("*Generating recommendations for you...*")
+            thinking_message = await message.channel.send(
+                f"{bot.user.name} is thinking..."
+            )
             data = str(recommendations(discord_user))
+            if thinking_message is not None:
+                await thinking_message.delete()
             await message.channel.send(data)
         except Exception as e:
             await message.channel.send(f"An error occurred: {e}")
@@ -133,7 +144,12 @@ By using this bot, you agree to this policy. For questions, contact the develope
     # Lookalike intent
     elif any(word in words for word in NLP_INTENTS["lookalike"]):
         try:
+            thinking_message = await message.channel.send(
+                f"{bot.user.name} is thinking..."
+            )
             result = lookalike(user_message)
+            if thinking_message is not None:
+                await thinking_message.delete()
             await message.channel.send(result)
         except Exception as e:
             await message.channel.send(f"An error occurred: {e}")
@@ -162,7 +178,15 @@ async def profile_slash_command(interaction: discord.Interaction, username: str)
         f"*This bot uses your public Letterboxd reviews to generate recommendations. No private data is collected. By sending this command, you consent us to store public letterboxd data. See more here: `/policy`*\n**Generating profile for** {username}, **please wait a minute before sending another command**"
     )
     discord_user = interaction.user.name
+    thinking_message = await interaction.followup.send(
+        f"{bot.user.name} is generating your profile..."
+    )
     profile(username, discord_user)
+    if thinking_message is not None:
+        await thinking_message.delete()
+    await interaction.followup.send(
+        f"Profile for {username} has been generated successfully!"
+    )
 
 
 # Here is the 'JSON' output function :
