@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { RiRobot3Line, RiPlayCircleLine, RiCloseLine } from "@remixicon/react";
 
-const YOUTUBE_VIDEO_ID = "https://youtu.be/fnNiOG_aSVI";
+const YOUTUBE_VIDEO_ID = "fnNiOG_aSVI";
 
 export default function Demo() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -115,16 +115,16 @@ export default function Demo() {
 
       <button
         onClick={() => setModalOpen(true)}
-        className="relative mt-8 w-64 aspect-video rounded-xl overflow-hidden border border-white/10 group cursor-pointer"
+        className="relative mt-8 w-full max-w-3xl aspect-video rounded-xl overflow-hidden border border-white/10 group cursor-pointer"
       >
         <img
-          src={`https://img.youtube.com/vi/${YOUTUBE_VIDEO_ID}/mqdefault.jpg`}
+          src={`https://img.youtube.com/vi/${YOUTUBE_VIDEO_ID}/maxresdefault.jpg`}
           alt="Aperçu vidéo démo"
-          className="w-full h-full object-cover opacity-70 group-hover:opacity-50 transition-opacity"
+          className="w-full h-full object-cover transition-opacity group-hover:opacity-80"
         />
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
-          <RiPlayCircleLine className="w-10 h-10 text-white group-hover:scale-110 transition-transform" />
-          <span className="text-white text-xs font-medium">Voir la démo</span>
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/30 group-hover:bg-black/20 transition-colors">
+          <RiPlayCircleLine className="w-16 h-16 text-white drop-shadow-lg group-hover:scale-110 transition-transform" />
+          <span className="text-white text-sm font-medium drop-shadow">Voir la démo</span>
         </div>
       </button>
 

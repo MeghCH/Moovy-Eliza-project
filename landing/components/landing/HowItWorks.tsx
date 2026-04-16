@@ -21,6 +21,14 @@ export default function HowItWorks() {
           </div>
         ))}
       </div>
+
+      <div className="flex items-start gap-4 w-full max-w-2xl mt-8 bg-purple-600/10 border border-purple-500/20 rounded-2xl px-6 py-4">
+        <span className="text-2xl">😉</span>
+        <div>
+          <p className="text-purple-300 text-sm font-semibold mb-1">Petit plus</p>
+          <p className="text-gray-400 text-sm">Tu peux importer ton profil Letterboxd et MooVy se charge du reste.</p>
+        </div>
+      </div>
     </section>
   )
 }
