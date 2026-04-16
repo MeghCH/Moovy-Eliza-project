@@ -10,7 +10,7 @@ export default function Features() {
     {
       icon: <RiFocus3Line className="text-4xl text-purple-400 mb-4" />,
       title: "Précis",
-      description: "Adapte à ton humeur",
+      description: "S'adapte à ton humeur",
     },
     {
       icon: <RiFlashlightLine className="text-4xl text-purple-400 mb-4" />,
